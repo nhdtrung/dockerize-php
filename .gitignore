@@ -1,0 +1,6 @@
+/docker/db/dbdata
+/docker/nginx/logs/
+/.idea
+.idea
+/.phpunit.result.cache
+/vendor/

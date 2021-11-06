@@ -1,0 +1,70 @@
+version: '3'
+services:
+
+  #PHP Service
+  app:
+    build:
+      context: ./
+      dockerfile: docker/php/Dockerfile
+    depends_on:
+      - db
+    container_name: app
+    working_dir: /var/www
+    environment:
+      APP_ENV: local
+      XDEBUG_CONFIG: remote_host=host.docker.internal remote_port=9000 # for xdebug
+      PHP_IDE_CONFIG: serverName=docker # for xdebug
+    volumes:
+      - ./:/var/www/
+      - ./docker/php/conf.d/local.ini:/usr/local/etc/php/conf.d/local.ini
+      - ./docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini # comment out this will disable xdebug
+      - ./docker/supervisord/supervisord.conf:/etc/supervisor/supervisord.conf # mapping supervisord.conf
+    networks:
+      - app-network
+
+  #Nginx Service
+  webserver:
+    platform: linux/amd64
+    image: nginx:alpine
+    container_name: webserver
+    working_dir: /var/www
+    depends_on:
+      - app
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/logs:/var/log/nginx
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - app-network
+
+  #Database
+  db:
+    # platform: linux/x86_64
+    # image: mysql:5.7
+    image: mariadb:10.5.8
+    container_name: db
+    command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci','--default-authentication-plugin=mysql_native_qlassword']
+    environment:
+      MYSQL_DATABASE: laravel
+      MYSQL_ROOT_PASSWORD: secret
+      # MYSQL_USER: auction-user
+      # MYSQL_PASSWORD: mysecurepassword
+    ports:
+        - "3306:3306"
+    volumes:
+      - ./docker/db/dbdata:/var/lib/mysql
+      - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  dbdata:
+    driver: local

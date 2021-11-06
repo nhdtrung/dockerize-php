@@ -1,0 +1,83 @@
+{
+  "name": "nhdtrung/dockerize-php",
+  "description": "A template composer package for PHP",
+  "homepage": "https://github.com/nhdtrung/dockerize-php",
+  "license": "proprietary",
+  "support": {
+    "email": "travisnguyenhoang@gmail.com"
+  },
+  "authors": [
+    {
+      "name": "travis",
+      "email": "travisnguyenhoang@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "ComposerTemplate\\Examples\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "ComposerTemplate\\Tests\\Examples\\": "tests"
+    }
+  },
+  "require": {
+    "php": "^7.2 || ^8.0"
+  },
+  "scripts": {
+    "custom:phplint": [
+      "@php vendor/bin/parallel-lint --blame --exclude ./vendor ."
+    ],
+    "custom:phpcs": [
+      "@php vendor/bin/phpcs -p -s --standard=${PWD}/phpcs.xml --extensions=php ${PWD}/src ${PWD}/tests"
+    ],
+    "custom:phpcs:ci": [
+      "@php vendor/bin/phpcs -p -s --report=checkstyle --report-file=${PWD}/build/logs/checkstyle.xml --standard=${PWD}/phpcs.xml --extensions=php ${PWD}/src ${PWD}/tests"
+    ],
+    "custom:phpcpd": [
+      "@php vendor/bin/phpcpd --progress --exclude=tests ${PWD}/src"
+    ],
+    "custom:phpcpd:ci": [
+      "@php vendor/bin/phpcpd --progress --log-pmd ${PWD}/build/logs/pmd-cpd.xml --exclude=tests ${PWD}/src"
+    ],
+    "custom:phploc": [
+      "@php vendor/bin/phploc --count-tests ${PWD}/src ${PWD}/tests"
+    ],
+    "custom:phploc:ci": [
+      "@php vendor/bin/phploc --count-tests --og-csv ${PWD}/build/logs/phploc.csv --log-xml ${PWD}/build/logs/phploc.xml ${PWD}/src ${PWD}/tests"
+    ],
+    "custom:phpmnd": [
+      "@php vendor/bin/phpmnd --no-interaction --no-ansi --progress ${PWD}/src"
+    ],
+    "custom:phpmnd:ci": [
+      "@php vendor/bin/phpmnd --no-interaction --no-ansi --progress ${PWD}/src > ${PWD}/build/logs/phpmnd.txt && echo"
+    ],
+    "custom:phpmd": [
+      "@php vendor/bin/phpmd ${PWD}/src text ${PWD}/phpmd.xml"
+    ],
+    "custom:phpmd:ci": [
+      "@php vendor/bin/phpmd --reportfile ${PWD}/build/logs/phpmd.xml ${PWD}/src xml ${PWD}/phpmd.xml"
+    ],
+    "custom:phpunit": [
+      "@php vendor/bin/phpunit --configuration ${PWD}/phpunit.xml --stderr"
+    ],
+    "custom:phpunit:ci": [
+      "@php vendor/bin/phpunit --configuration ${PWD}/phpunit.xml --stderr --coverage-html ${PWD}/build/coverage"
+    ],
+    "custom:phpunit:no-coverage": [
+      "@php vendor/bin/phpunit --configuration ${PWD}/phpunit.xml --no-coverage --stderr"
+    ]
+  },
+  "require-dev": {
+    "exussum12/coverage-checker": "^1.0",
+    "php-parallel-lint/php-parallel-lint": "^1.2",
+    "phploc/phploc": "^5.0 | ^6.0 | ^7.0",
+    "phpmd/phpmd": "^2.7",
+    "phpunit/phpunit": "^8.0 | ^9.0",
+    "povils/phpmnd": "^2.0",
+    "sebastian/phpcpd": "^4.1 | ^5.0 | ^6.0",
+    "slevomat/coding-standard": "^5.0 | ^6.0 | ^7.0",
+    "squizlabs/php_codesniffer": "^3.5"
+  }
+}
