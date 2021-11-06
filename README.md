@@ -2,12 +2,14 @@
 
 > `sh ./start.sh`
 
-Include
+Docs: 
 
-### PHPCS:
+- [xdebug](./docs/xdebug/xdebug.md)
+
+### PHPCS
 `PHP_CodeSniffer` is a set of two PHP scripts; the main phpcs script that tokenizes PHP, JavaScript and CSS files to detect violations of a defined coding standard, and a second phpcbf script to automatically correct coding standard violations. PHP_CodeSniffer is an essential development tool that ensures your code remains clean and consistent.
 
-### PHPMD:
+### PHPMD
 `PHP mess detector` takes a given PHP source code base and look for several potential problems within that source. These problems can be things like:
 
 - Possible bugs
