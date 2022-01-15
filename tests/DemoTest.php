@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace ComposerTemplate\Tests\Examples;
+namespace App\ExampleTest;
 
-use ComposerTemplate\Examples\Example;
+use App\Example\Demo;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Class ExampleTest
  */
-class ExampleTest extends TestCase
+class DemoTest extends TestCase
 {
     /**
      * @group Example
      */
     public function testReturnTrue()
     {
-        $this->assertTrue(Example::returnTrue());
+        $this->assertTrue(Demo::returnTrue());
     }
 }
